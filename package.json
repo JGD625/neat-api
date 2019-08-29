@@ -10,7 +10,7 @@
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "author": "",
+  "author": "JDB",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
