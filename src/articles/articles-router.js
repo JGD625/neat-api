@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const ArticleService = require('./article-service')
+const ArticleService = require('./articles-service')
 
 const articlesRouter = express.Router()
 
