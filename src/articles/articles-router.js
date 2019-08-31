@@ -3,7 +3,10 @@ const path = require('path')
 const ArticleService = require('./article-service')
 
 const articlesRouter = express.Router()
-const jsonBodyParser = express.json()
+
+
+
+
 
 /* verbs for generic articles */
 articlesRouter
@@ -16,28 +19,6 @@ articlesRouter
       .catch(next)
   })
 
-  // add a new article without comments
-  .post(jsonBodyParser, (req, res, next) => {
-    const { title, content, author_id } = req.body
-    const newArticle = { title, content, author_id }
-
-    for (const [key, value] of Object.entries(newArticle))
-      if (value == null)
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-
-    ArticleService.insertArticle(
-      req.app.get('db'),
-      newArticle
-    )
-      .then(article => {
-        res
-          .status(201)
-          .location(path.join(req.originalUrl, article.id))
-          .json(article)
-      })
-  })
 
 /* verbs for specific articles */
 articlesRouter
@@ -51,39 +32,6 @@ articlesRouter
     )
       .then(articles => {
         res.json(articles)
-      })
-      .catch(next)
-  })
-
-  // update article information, without comments
-  .patch(jsonBodyParser, (req, res, next) => {
-    const { title, content } = req.body
-    if (title == null && content == null)
-      return res.status(400).json({
-        error: { message: `Request body must content either 'title' or 'content'` }
-      })
-    const newFields = {}
-    if (title) newFields.title = title
-    if (content) newFields.content = content
-    ArticleService.updateArticle(
-      req.app.get('db'),
-      req.params.article_id,
-      newFields
-    )
-      .then(() => {
-        res.status(204).end()
-      })
-      .catch(next)
-  })
-
-  // remove an article, comments should cascade
-  .delete((req, res, next) => {
-    ArticleService.deleteArticle(
-      req.app.get('db'),
-      req.params.article_id
-    )
-      .then(() => {
-        res.status(204).end()
       })
       .catch(next)
   })

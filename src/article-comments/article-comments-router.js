@@ -2,13 +2,19 @@ const express = require('express')
 const path = require('path')
 const CommentService = require('./article-comments-service')
 
-const commentsRouter = express.Router()
+const articleCommentsRouter = express.Router()
 const jsonBodyParser = express.json()
 
+const serializeArticleComment = comment => ({
+  id: comment.id,
+  text: xss(comment.text),
+  article_id: comment.article_id,
+  user_id: article.user_id,
+})
+
 /* verbs for general comments */
-commentsRouter
+articleCommentsRouter
   .route('/')
-    // add a comment, requires { article_id }
     .post(jsonBodyParser, (req, res, next) => {
       const { article_id, text, user_id } = req.body
       const newComment = { article_id, text, user_id }
@@ -27,13 +33,13 @@ commentsRouter
           res
             .status(201)
             .location(path.join(req.originalUrl, comment.id))
-            .json(comment)
+            .json(serializeArticleComment(comment))
         })
         .catch(next)
     })
 
 /* verbs for soecufuc comment */
-commentsRouter
+articleCommentsRouter
   .route('/:comment_id')
     .all((req, res, next) => {
       CommentService.hasComment(
@@ -93,4 +99,4 @@ commentsRouter
         .catch(next)
     })
 
-module.exports = commentsRouter
+module.exports = articleCommentsRouter

@@ -19,8 +19,15 @@ const LiquorService = {
       .from('neat_liquors AS liq')
       .select(
         'liq.id',
-        'liq.name',
+        'liq.liquor_name',
+        'liq.brand_name',
+        'liq.producer',
+        'liq.origin',
+        'liq.liquor_type',
+        'liq.liquor_age',
         'liq.proof',
+        'liq.price',
+        'liq.rating',
         'liq.content',
         db.raw(
           `COALESCE(
@@ -36,7 +43,7 @@ const LiquorService = {
       .groupBy('liq.id')
   },
 
-  hasArticle(db, id) {
+  hasLiquor(db, id) {
     return db('neat_liquors')
       .select('id')
       .where({ id })

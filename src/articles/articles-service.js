@@ -21,6 +21,7 @@ const ArticleService = {
         'art.id',
         'art.title',
         'art.date_published',
+        'art.banner_url',
         'art.content',
         db.raw(
           `COALESCE(
