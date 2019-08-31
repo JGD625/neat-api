@@ -33,7 +33,7 @@ liquorCommentsRouter
     })
 
 /* verbs for soecufuc comment */
-commentsRouter
+liquorCommentsRouter
   .route('/:comment_id')
     .all((req, res, next) => {
       LiquorCommentService.hasComment(
