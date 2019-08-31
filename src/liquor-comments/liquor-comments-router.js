@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const LiquorCommentService = require('./liquor-comments-service')
 
-const commentsRouter = express.Router()
+const liquorCommentsRouter = express.Router()
 const jsonBodyParser = express.json()
 
 /* verbs for general comments */
