@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const LiquorService = require('./liquor-service')
+const LiquorService = require('./liquors-service')
 
 const liquorsRouter = express.Router()
 const jsonBodyParser = express.json()
