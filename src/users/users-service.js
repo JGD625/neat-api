@@ -1,53 +1,49 @@
-const UserService = {
-  getAll(db) {
-    return db
-      .from('neat_users')
-      .select('*')
-  },
+const xss = require('xss')
+const bcrypt = require('bcryptjs')
 
-  getById(db, user_id) {
-    return db
-      .from('neat_users')
-      .where({
-        id: user_id
-      })
-      .first()
-  },
+const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
-  hasUser(db, id) {
+const UsersService = {
+  hasUserWithUserName(db, user_name) {
     return db('neat_users')
-      .select('id')
-      .where({ id })
-      .first()
-      .then(user => !!user)
+        .where({ user_name })
+        .first()
+        .then(user => !!user)
+    },
+    insertUser(db, newUser) {
+         return db
+           .insert(newUser)
+           .into('neat_users')
+           .returning('*')
+           .then(([user]) => user)
+       },
+  validatePassword(password) {
+    if (password.length < 8) {
+      return 'Password be longer than 8 characters'
+    }
+    if (password.length > 72) {
+      return 'Password be less than 72 characters'
+    }
+    if (password.startsWith(' ') || password.endsWith(' ')) {
+        return 'Password must not start or end with empty spaces'
+    }
+    if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
+        return 'Password must contain 1 upper case, lower case, number and special character'
+    }
+    return null
   },
-
-  insertUser(db, newUser) {
-    return db
-      .insert(newUser)
-      .into('neat_users')
-      .returning('*')
-      .then(([user]) => user)
-  },
-
-  updateUser(db, id, newUserFields) {
-    return db('neat_users')
-      .where({ id })
-      .update(newUserFields)
-  },
-
-  deleteUser(db, id) {
-    return db('neat_users')
-      .where({ id })
-      .delete()
-  },
-
-  hasUserWithEmail(db, email) {
-    return db('neat_users')
-      .where({ email })
-      .first()
-      .then(user => !!user)
-  },
+  hashPassword(password) {
+       return bcrypt.hash(password, 12)
+     },
+  serializeUser(user) {
+         return {
+           id: user.id,
+           full_name: xss(user.full_name),
+           user_name: xss(user.user_name),
+           nickname: xss(user.nick_name),
+           date_created: new Date(user.date_created),
+         }
+       },
 }
 
-module.exports = UserService
+module.exports = UsersService
