@@ -3,6 +3,12 @@ URL
 https://radiant-sierra-40073.herokuapp.com/api
 ( required headers Authorization Bearer KEY )
 
+Server side of NEAT full-stack capstone project by JDBUTISBAUCH
+This app uses the React, Node, Express, PostgreSQL stack.
+
+# LIVE APP
+https://neat.now.sh
+
 Method:
 
 GET /liquors/ 
