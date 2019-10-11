@@ -1,4 +1,81 @@
 # NEAT SERVER
+URL
+https://radiant-sierra-40073.herokuapp.com/api
+( required headers Authorization Bearer KEY )
+
+Method:
+
+GET /liquors/ 
+
+POST /users 
+
+URL Params
+
+(requiredFields = ['user_name', 'password', 'full_name'] ) 
+(optionalField = ['nickname'] )
+
+POST /api/reviews
+( requiredFields = ['text', 'rating', 'thing_id'] )
+
+Example Success Response:
+
+GET /liquors/ 
+  {
+        "id": 1,
+        "liquor_name": "Angel's Envy Kentucky Straight Bourbon",
+        "brand_name": "Angel's Envy",
+        "producer": "Louisville Distilling Company, LLC",
+        "origin": "KY, USA",
+        "liquor_type": "Bourbon",
+        "liquor_age": "4-6 years",
+        "proof": "86.6",
+        "price": "3",
+        "content": "A light bodied and golden bourbon. A subtle nose with some floral and fruity notes and a light spice.",
+        "date_created": "2019-10-01T14:03:14.808Z",
+        "user": {},
+        "number_of_reviews": 5,
+        "average_review_rating": 4
+    }
+
+Code: 200 
+Content:  {
+        "id": 1,
+        "liquor_name": "Angel's Envy Kentucky Straight Bourbon",
+        "brand_name": "Angel's Envy",
+        "producer": "Louisville Distilling Company, LLC", ......
+    }
+Response: Successful response, liquors are in database
+
+Code: 200 
+Content:  { ....
+    }
+Response: Successful response, however now liquors are in database
+
+Code: 200
+Content: { Hello World! }
+Successful connection to database
+
+Code: 404 NOT FOUND 
+Content: { error: `Liquor doesn't exist` }
+Valid call, however no liquor matches given ID
+
+Code: 401  
+Content: { error: `Unauthorized request` }
+invalid password
+
+Code: 400
+Content: { Missing '${field}' in request body }
+Required field is missing
+
+Code: 400
+Content: { error: `Incorrect user_name or password` }
+Invalid login
+
+Code 201:
+Successful POST request to /reviews/
+
+
+
 
 ## Setting Up
 
